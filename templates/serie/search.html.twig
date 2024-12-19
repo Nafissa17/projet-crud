@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rechercher une série{% endblock %}
+
+{% block body %}
+<h1>Rechercher une série</h1>
+
+<form method="get">
+    <label for="genre">Genre:</label>
+    <input type="text" name="genre" id="genre" value="{{ criteria['genre'] ?? '' }}">
+
+    <label for="nombreSaisons">Nombre de saisons:</label>
+    <input type="number" name="nombreSaisons" id="nombreSaisons" value="{{ criteria['nombreSaisons'] ?? '' }}">
+
+    <label for="producteur">Producteur:</label>
+    <input type="text" name="producteur" id="producteur" value="{{ criteria['producteur'] ?? '' }}">
+
+    <button type="submit">Rechercher</button>
+</form>
+
+<ul class="series-list">
+{% for serie in series %}
+    <li>{{ serie.nom }} - 
+        {% for genre in serie.genres %}
+            {{ genre.nom }}{% if not loop.last %}, {% endif %}
+        {% endfor %}
+        - 
+        {% for producteur in serie.producteurs %}
+            {{ producteur.nom }}{% if not loop.last %}, {% endif %}
+        {% endfor %}
+    </li>
+{% else %}
+    <li>Aucune série trouvée</li>
+{% endfor %}
+</ul>
+{% endblock %}

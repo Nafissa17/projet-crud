@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier une série{% endblock %}
+
+{% block body %}
+
+    <h1>Modifier la série : {{ serie.nom }}</h1>
+
+    {{ form_start(form, { 'attr': { 'enctype': 'multipart/form-data' } }) }}
+        {{ form_row(form.nom) }}
+        {{ form_row(form.nombreSaisons) }}
+        {{ form_row(form.synopsis) }}
+        {{ form_row(form.plateforme) }}
+        {{ form_row(form.dateDiffusion) }}
+
+        <div class="form-group">
+            {{ form_label(form.genres) }}
+            <div class="genres-container">
+                {% for genre in form.genres %}
+                    <div class="genre-item">
+                        {{ form_widget(genre) }}
+                        {{ form_label(genre) }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        {% if serie.image %}
+            <div>
+                <p>Image actuelle :</p>
+                <img src="{{ asset('uploads/images/' ~ serie.image) }}" alt="{{ serie.nom }}" style="max-width: 200px; height: auto; margin-bottom: 10px;">
+                
+                <!-- Lien pour supprimer l'image -->
+        <p><a href="{{ path('series_remove_image', {'id': serie.id}) }}" class="text-danger" onclick="return confirm('Voulez-vous vraiment remplacer cette image ?')">Remplacer l'image</a></p>
+            </div>
+        {% endif %}
+
+        {{ form_row(form.image, { 'label': 'Nouvelle image (laisser vide pour conserver l\'image actuelle)' }) }}
+        {{ form_row(form.producteurNom) }}
+        {{ form_row(form.note) }}
+        
+        <button class="btn btn-primary">Modifier</button>
+    {{ form_end(form) }}
+
+    <a href="{{ path('series_index') }}" class="btn btn-secondary">Retour à la liste</a>
+{% endblock %}

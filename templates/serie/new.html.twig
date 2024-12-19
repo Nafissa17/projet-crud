@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une nouvelle série{% endblock %}
+
+{% block body %}
+<h1>Ajouter une nouvelle série</h1>
+
+
+{{ form_start(form, { 'attr': { 'enctype': 'multipart/form-data' } }) }}
+
+{{ form_row(form.nom) }}
+{{ form_row(form.nombreSaisons) }}
+{{ form_row(form.synopsis) }}
+{{ form_row(form.plateforme) }}
+{{ form_row(form.dateDiffusion) }}
+
+<div class="form-group">
+    {{ form_label(form.genres) }}
+    <div class="genres-container">
+        {% for genre in form.genres %}
+            <div class="genre-item">
+                {{ form_widget(genre) }}
+                {{ form_label(genre) }}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Champ pour le téléchargement de l'image -->
+{{ form_row(form.image, { 'label': 'Image de la série' }) }}
+
+{{ form_row(form.producteurNom) }}
+{{ form_row(form.note) }}
+<button class="btn btn-primary">Enregistrer</button>
+
+{{ form_end(form) }}
+
+<a href="{{ path('series_index') }}">Retourner à la liste</a>
+{% endblock %}

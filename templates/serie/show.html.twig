@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ serie.nom }} Details{% endblock %}
+
+{% block body %}
+<h1>{{ serie.nom }}</h1>
+
+<!-- Affichage de l'image de la série -->
+{% if serie.image %}
+    <div>
+        <img src="{{ asset('uploads/images/' ~ serie.image) }}" alt="{{ serie.nom }}" style="max-width: 100%; height: auto; margin-bottom: 20px;">
+    </div>
+{% endif %}
+
+<p><strong>Nombre de saisons:</strong> {{ serie.nombreSaisons }}</p>
+<p><strong>Synopsis:</strong> {{ serie.synopsis }}</p>
+<p><strong>Plateforme:</strong> {{ serie.plateforme }}</p>
+<p><strong>Date de diffusion:</strong> {{ serie.dateDiffusion ? serie.dateDiffusion|date('Y-m-d') : 'N/A' }}</p>
+<p><strong>Genre(s):</strong>
+    {% if serie.genres|length > 0 %}
+        {% for genre in serie.genres %}
+            {{ genre.nom }}{% if not loop.last %}, {% endif %}
+        {% endfor %}
+    {% else %}
+        Aucun genre trouvé
+    {% endif %}
+</p>
+<p><strong>Producteur(s):</strong>
+    {% if serie.producteurs|length > 0 %}
+        {% for producteur in serie.producteurs %}
+            {{ producteur.nom }}{% if not loop.last %}, {% endif %}
+        {% endfor %}
+    {% else %}
+        Aucun producteur trouvé
+    {% endif %}
+</p>
+<p><strong>Note:</strong> {{ serie.note }}</p>
+
+<a href="{{ path('series_index') }}" class="btn btn-secondary">Retour à la liste</a>
+<a href="{{ path('series_edit', {'id': serie.id}) }}" class="btn btn-primary">Modifier</a>
+{% endblock %}
